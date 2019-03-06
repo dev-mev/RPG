@@ -2,22 +2,34 @@ let playerCharacters = [{ }, { }, { }, { }];
 let hero;
 
 $(document).ready(function () {
-
   function chooseEnemyToAttack() {
+    $("#area2").empty();
+    // Move enemies
+    playerCharacters.forEach(function (player) {
+      if (player.type === "enemy" && player.alive === true) {
+        $("#area2").append(
+          $("<span>")
+            .addClass("enemy")
+            .attr("id", player.id)
+            .text(player.id)
+            .data("player", player)
+        );
+      }
+    });
+
     $(".enemy").on("click", function () {
-      console.log(playerCharacters)
-      let enemyToAttack = $(this).data("enemy");
+      let enemyToAttack = $(this).data("player");
+      $("#area3").empty();
       $("#area3").append(
         $("<span>")
           .addClass("currentlyFighting")
           .attr("id", enemyToAttack.id)
           .text(enemyToAttack.id)
-          .data("enemy", enemyToAttack)
+          .data("player", enemyToAttack)
       ).append(
         $("<button>")
           .text("ATTACK")
           .attr("type", "button")
-          .attr("id", "attackButton")
           .addClass("btn btn-primary")
           .on("click", function attack() {
             if (enemyToAttack.health > 0 && hero.health > 0) {
@@ -27,11 +39,16 @@ $(document).ready(function () {
               console.log(hero.health);
               
               if (enemyToAttack.health <= 0) {
-                alert("ENEMY DEFEATED")
+                alert("ENEMY DEFEATED");
+                enemyToAttack.alive = false;
+                hero.attack += 5;
+                hero.health = 50;
+                chooseEnemyToAttack();
               }
               
               if (hero.health <= 0) {
-                alert("You DIED!")
+                alert("You DIED!");
+                startGame();
               }
             }
           })
@@ -53,21 +70,10 @@ $(document).ready(function () {
           .data("player", hero)
       );
 
-      // If no player type is assigned, add attr "enemy"
+      // If no player type is assigned, add type "enemy"
       playerCharacters.forEach(function (player) {
-        if (!player.type) {
+        if (player.type !== "hero") {
           player.type = "enemy";
-        }
-
-        // Move enemies
-        if (player.type === "enemy") {
-          $("#area2").append(
-            $("<span>")
-              .addClass("enemy")
-              .attr("id", player.id)
-              .text(player.id)
-              .data("enemy", player)
-          );
         }
       });
       chooseEnemyToAttack();
@@ -75,8 +81,14 @@ $(document).ready(function () {
   }
 
   function startGame() {
+    $("#area1").empty();
+    $("#area2").empty();
+    $("#area3").empty();
+
     playerCharacters.forEach(function (player, index) {
       player.id = index + 1;
+      player.alive = true;
+      player.type = "";
       player.health = 50;
       player.attack = Math.floor((Math.random() * 20) + 1);
       player.counterAttack = Math.floor((Math.random() * 20) + 1);
@@ -86,6 +98,7 @@ $(document).ready(function () {
           .data("player", player)
       );
     });
+    console.log(playerCharacters)
     chooseCharacter();
   }
 
