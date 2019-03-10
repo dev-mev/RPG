@@ -1,0 +1,67 @@
+body {
+  font: 100% Helvetica, sans-serif;
+  color: #ffffff;
+  background-image: url("../images/nate-watson-348574-unsplash.png");
+  background-size: cover;
+}
+
+.hero {
+  background-color: green;
+  border-color: green;
+}
+
+.currentlyFighting {
+  background-color: red;
+  border-color: red;
+}
+
+.attack-button {
+  margin-top: 8rem;
+}
+
+.card {
+  width: 15.625rem;
+  color: black;
+  margin: 2rem;
+}
+
+#area1, #area3, .attack-button {
+  float: left;
+}
+
+.jumbotron {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.playerChar {
+  margin: 2rem;
+}
+
+img {
+  position: relative;
+}
+
+.attack-text {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  padding: 25% 10%;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 8rem;
+  opacity: 0;
+  animation: text-fade;
+  animation-iteration-count: 1;
+  animation-duration: 5s;
+}
+
+@keyframes text-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
